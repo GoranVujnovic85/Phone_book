@@ -193,19 +193,26 @@ void start()
 		scanf("%d",&choice);
 		switch(choice)
 		{
-			case 0:
+			case stop_the_program:
+			{
 				Stop_the_program();
+			}
 				break;
 
-			case 1:
+			case load_users:
+			{
 				Load_users(filename);
+			}
 		    	break;
 
-			case 2:
+			case add_a_user:
+			{
 		    	Add_a_user();
+			}
                 break;
 
-			case 3:
+			case view_all_users:
+			{
 				if (counter > 0)
 		    	 {
 					View_all_users(arrey, counter);
@@ -216,6 +223,7 @@ void start()
 		    	     printf("No users to display.\n");
 		    	     fflush(stdout);
 		    	 }
+			}
 		    	 break;
 
 		}
