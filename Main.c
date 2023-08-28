@@ -25,6 +25,7 @@ Description : By using this file we can save contacts and do these operations in
 #define add_a_user                    2
 #define view_all_users                3
 #define remove_a_user_from_arrey      4
+#define remove_a_user_from_FILE       5
 
 
 // Global variables.
@@ -52,6 +53,7 @@ void View_all_users();
 void Add_a_user();
 void Add_new_user_in_txt();
 void Remove_a_user_from_arrey();
+void Remove_a_user_from_FILE();
 
 
 // This will print main menu.
@@ -66,6 +68,7 @@ void Print_menu()
     printf("\t\t\t2) Add a user\n\n");
     printf("\t\t\t3) View all users\n\n");
     printf("\t\t\t4) Remove a user from arrey\n\n");
+    printf("\t\t\t5) Remove a user from FILE\n\n");
     printf("\t\t\t\tEnter your Choice : ");
     fflush(stdout);
 }
@@ -74,16 +77,14 @@ void Print_menu()
 // This function will stop the program.
 int Stop_the_program()
 {
-	int stop_program = 0;
-
-	while(stop_program == 0)
-	{
 	printf("\n\n");
-	printf("\t\t\t\tThe program is stopped !\n");
-	printf("\t\t\t\tPress any key to continue....\n");
+	printf("\n\t\t\t\t******************************************************************************\n");
+	printf("\t\t\t\t*                  Program is stopped!                                       *\n");
+	printf("\t\t\t\t*                  You have to restart the program...                        *\n");
+	printf("\t\t\t\t******************************************************************************\n\n\n");
 	fflush(stdout);
-	}
-	return 0;
+
+	return 1;
 }
 
 
@@ -107,6 +108,10 @@ int Stop_the_program()
 	 }
 
 	 fclose(file);
+
+ 	 printf("\n\t\t\t\t******************************************************************************\n");
+ 	 printf("\t\t\t\t*                  You have successfully loaded users                        *\n");
+ 	 printf("\t\t\t\t******************************************************************************\n\n\n");
 }
 
 
@@ -200,9 +205,10 @@ int Stop_the_program()
 	 int number;
 
 	 printf("\n\t\t\t\t******************************************************************************\n");
-	 printf("\t\t\t\t*                 Pay attention, you are about to remove a user               *\n");
-	 printf("\t\t\t\t******************************************************************************\n\n\n");
-	 printf("\t\t\t\tEnter Phone number of the user you want to remove from phone book: ");
+	 	 printf("\t\t\t\t*                     Pay attention!                                         *\n");
+	 	 printf("\t\t\t\t*          You will delete the user from the Arrey                           *\n");
+	 	 printf("\t\t\t\t******************************************************************************\n\n\n");
+	 	 printf("\t\t\t\tEnter Phone number of the user you want to remove from phone book: ");
 	 fflush(stdout);
 	 scanf("%d", &number);
 
@@ -214,7 +220,7 @@ int Stop_the_program()
 		 {
 			 found_index = i;
 			 printf("\n\n");
-			 printf("\t\t\t\tThe selected user was located on the %d index and on the %d place\n", i, counter);
+			 printf("\t\t\t\tThe selected user was located on the %d index!\n", i);
 			 break;
 		 }
 	 }
@@ -236,11 +242,62 @@ int Stop_the_program()
 	 }
  }
 
+ // This function remove a user from FILE
+ void Remove_a_user_from_FILE()
+ {
+	 int number;
+	 User user;
+	 int flag = 0;
+
+	 printf("\n\t\t\t\t******************************************************************************\n");
+	 printf("\t\t\t\t*                     Pay attention!                                         *\n");
+	 printf("\t\t\t\t*          You will delete the user from the FILE                            *\n");
+	 printf("\t\t\t\t******************************************************************************\n\n\n");
+	 printf("\t\t\t\tEnter Phone number of the user you want to remove from phone book: ");
+	 fflush(stdout);
+	 scanf("%d", &number);
+
+	 FILE *file, *temp;
+	 char line[100];
+
+	 file = fopen("Format_Imenika.txt", "r");
+	 temp = fopen("temp.txt", "w+");
+
+	 while(fgets(line, sizeof(line), file))
+	 {
+		 sscanf(line, "%[^|]|%[^|]|%d\n", user.name, user.surname, &user.number);
+
+		 if(user.number == number)
+		 {
+			 flag = 1;
+			 printf("\n\n");
+			 printf("\t\t\t\tPerson removed successfully\n");
+		 }
+		 else
+		 {
+			 fputs(line, temp); // cuva sve linije sem one koju brisem
+		 }
+	 }
+
+	 fclose(file);
+	 fclose(temp);
+
+	 if(flag == 0)
+	 {
+		 printf("No record found for %d number\n",number);
+	 }
+
+	 remove("Format_Imenika.txt");
+	 rename("temp.txt","Format_Imenika.txt");
+
+ }
+
 
 // This function will start our program.
 void start()
 {
 	int choice;
+	//int stop;
 	while(1)
 	{
 		Print_menu();
@@ -250,7 +307,9 @@ void start()
 		{
 			case stop_the_program:
 			{
+				//stop = 1;
 				Stop_the_program();
+				return;
 			}
 			break;
 
@@ -284,6 +343,12 @@ void start()
 			case remove_a_user_from_arrey:
 			{
 				Remove_a_user_from_arrey();
+			}
+			break;
+
+			case remove_a_user_from_FILE:
+			{
+				Remove_a_user_from_FILE();
 			}
 			break;
 

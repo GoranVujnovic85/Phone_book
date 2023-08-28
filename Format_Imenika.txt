@@ -7,10 +7,3 @@ Nemanja|Gudelj|0648881106
 Nikola|Milenkovic|0648881107
 Nikola|Cumic|0648881108
 Lazar|Samardzic|0648881109
-Sasa|Lukic|0648881110
-Goran|Vujnovic|06543231
-Vojo|Mirkov|0648543421
-Milos|Zivanovic|064555882
-Milos|Krasic|06435231
-Miroslav|Ilic|63554399
-Goran|Vujnovic|0
