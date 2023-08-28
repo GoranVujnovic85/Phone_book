@@ -212,7 +212,7 @@ int Stop_the_program()
 	 fflush(stdout);
 	 scanf("%d", &number);
 
-	 int found_index = 'd';
+	 int found_index = -1;
 
 	 for(int i = 0; i < counter; i++)
 	 {
@@ -225,7 +225,7 @@ int Stop_the_program()
 		 }
 	 }
 
-	 if(found_index != 'd')
+	 if(found_index != -1)
 	 {
 		 for(int i = found_index; i < counter - 1; i++)
 		 {
@@ -275,7 +275,7 @@ int Stop_the_program()
 		 }
 		 else
 		 {
-			 fputs(line, temp); // cuva sve linije sem one koju brisem
+			 fputs(line, temp);
 		 }
 	 }
 
