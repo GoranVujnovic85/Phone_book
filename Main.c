@@ -1,3 +1,4 @@
+
 /*
 Author : Goran Vujnovic
 Project Name : Phone_book
@@ -19,11 +20,11 @@ Description : By using this file we can save contacts and do these operations in
 
 
 // Macro definitions
-#define stop_the_program   0
-#define load_users         1
-#define add_a_user         2
-#define view_all_users     3
-#define remove_a_user      4
+#define stop_the_program              0
+#define load_users                    1
+#define add_a_user                    2
+#define view_all_users                3
+#define remove_a_user_from_arrey      4
 
 
 // Global variables.
@@ -36,7 +37,7 @@ typedef struct
 {
 	char name[20];
 	char surname[20];
-	char number[20];
+	int number;
 
 }User;
 User arrey[20];
@@ -44,12 +45,13 @@ User arrey[20];
 
 // All function prototypes.
 void Print_menu();
-void Stop_the_program();
+int Stop_the_program();
 void Load_users();
 int Adding_users_to_the_arrey();
 void View_all_users();
 void Add_a_user();
 void Add_new_user_in_txt();
+void Remove_a_user_from_arrey();
 
 
 // This will print main menu.
@@ -63,20 +65,25 @@ void Print_menu()
     printf("\t\t\t1) Load users\n\n");
     printf("\t\t\t2) Add a user\n\n");
     printf("\t\t\t3) View all users\n\n");
-    printf("\t\t\t4) Remove a user\n\n");
+    printf("\t\t\t4) Remove a user from arrey\n\n");
     printf("\t\t\t\tEnter your Choice : ");
     fflush(stdout);
 }
 
 
 // This function will stop the program.
-void Stop_the_program()
+int Stop_the_program()
 {
+	int stop_program = 0;
+
+	while(stop_program == 0)
+	{
 	printf("\n\n");
 	printf("\t\t\t\tThe program is stopped !\n");
 	printf("\t\t\t\tPress any key to continue....\n");
 	fflush(stdout);
-	exit(1);
+	}
+	return 0;
 }
 
 
@@ -92,7 +99,9 @@ void Stop_the_program()
 	 {
 		 char* name = strtok(line, "|");
 		 char* surname = strtok(NULL, "|");
-		 char* number = strtok(NULL, "\n");
+		 char* number_str = strtok(NULL, "\n");
+
+		 long number = atol(number_str);
 
 		 Adding_users_to_the_arrey(name, surname, number, arrey);
 	 }
@@ -102,11 +111,11 @@ void Stop_the_program()
 
 
  // This function adding users to the array.
- int Adding_users_to_the_arrey(char* name, char* surname, char* number, User* arrey)
+ int Adding_users_to_the_arrey(char* name, char* surname, long number, User* arrey)
  {
 	 strcpy(arrey[counter].name, name);
  	 strcpy(arrey[counter].surname, surname);
- 	 strcpy(arrey[counter].number, number);
+ 	 arrey[counter].number = number;
 
  	 counter++;
 
@@ -119,14 +128,14 @@ void Stop_the_program()
  {
 	 int i = 0;
 
- 	 printf("\n\t\t\t\t******************************************************************************\n");
+	 printf("\n\t\t\t\t******************************************************************************\n");
  	 printf("\t\t\t\t*                  Here is all records listed in phonebook                   *\n");
  	 printf("\t\t\t\t******************************************************************************\n\n\n");
 
  	 do
  	 {
 
- 		 printf("\t\t\t\t%d) Name: %s, Surname: %s, Number: %s\n\n", i + 1, arrey[i].name, arrey[i].surname, arrey[i].number);
+ 		 printf("\t\t\t\t%d) Name: %s, Surname: %s, Number: %ld\n\n", i + 1, arrey[i].name, arrey[i].surname, arrey[i].number );
 
  		 i++;
  		 fflush(stdout);
@@ -139,7 +148,8 @@ void Stop_the_program()
  // This function adds a new user
  void Add_a_user()
  {
- 	char name[20], surname[20], number[20];
+ 	char name[20], surname[20];
+	int number;
 
  	printf("\n\t\t\t\t******************************************************************************\n");
  	printf("\t\t\t\t*                  Enter information about the new user                        *\n");
@@ -154,7 +164,7 @@ void Stop_the_program()
  	printf("\n\n");
  	printf("\t\t\t\tEnter number : ");
  	fflush(stdout);
- 	scanf("%s",number);
+ 	scanf("%d",&number);
 
  	if (Adding_users_to_the_arrey(name, surname, number, arrey))
  	{
@@ -162,25 +172,70 @@ void Stop_the_program()
 
  		printf("\n\n");
  		printf("\t\t\t\tUser added successfully!\n\n");
-
+ 		fflush(stdout);
  	}
  	else
  	{
  		printf("\n\n");
  		printf("\t\t\t\tFailed to add user!\n");
+ 		fflush(stdout);
  	}
  }
 
- void Add_new_user_in_txt(const char* filename, const char* name, const char* surname, const char* number)
+
+ // This function writes a new user in a txt file
+ void Add_new_user_in_txt(const char* filename, const char* name, const char* surname, long number)
  {
 	 FILE *file;
-
  	 file = fopen(filename, "a+");
-
- 	 fprintf(file, "%s|%s|%s\n", name, surname, number);
+ 	 fprintf(file, "%s|%s|%ld\n", name, surname, number);
 
  	 fclose(file);
  }
+
+
+// This function remove a user from arrey
+ void Remove_a_user_from_arrey()
+ {
+	 int number;
+
+	 printf("\n\t\t\t\t******************************************************************************\n");
+	 printf("\t\t\t\t*                 Pay attention, you are about to remove a user               *\n");
+	 printf("\t\t\t\t******************************************************************************\n\n\n");
+	 printf("\t\t\t\tEnter Phone number of the user you want to remove from phone book: ");
+	 fflush(stdout);
+	 scanf("%d", &number);
+
+	 int found_index = 'd';
+
+	 for(int i = 0; i < counter; i++)
+	 {
+		 if(arrey[i].number == number)
+		 {
+			 found_index = i;
+			 printf("\n\n");
+			 printf("\t\t\t\tThe selected user was located on the %d index and on the %d place\n", i, counter);
+			 break;
+		 }
+	 }
+
+	 if(found_index != 'd')
+	 {
+		 for(int i = found_index; i < counter - 1; i++)
+		 {
+			 arrey[i] = arrey[i + 1];
+		 }
+		 counter--;
+
+		 printf("\n\n");
+		 printf("\t\t\t\tUser removed from the array.\n");
+	 }
+	 else
+	 {
+		 printf("\t\t\t\tUser was not found in the array.\n");
+	 }
+ }
+
 
 // This function will start our program.
 void start()
@@ -197,19 +252,19 @@ void start()
 			{
 				Stop_the_program();
 			}
-				break;
+			break;
 
 			case load_users:
 			{
 				Load_users(filename);
 			}
-		    	break;
+			break;
 
 			case add_a_user:
 			{
-		    	Add_a_user();
+				Add_a_user();
 			}
-                break;
+            break;
 
 			case view_all_users:
 			{
@@ -218,13 +273,19 @@ void start()
 					View_all_users(arrey, counter);
 
 		    	 }
-		    	 else
+				else
 		    	 {
-		    	     printf("No users to display.\n");
-		    	     fflush(stdout);
+					printf("No users to display.\n");
+		    	    fflush(stdout);
 		    	 }
 			}
-		    	 break;
+		    break;
+
+			case remove_a_user_from_arrey:
+			{
+				Remove_a_user_from_arrey();
+			}
+			break;
 
 		}
 	}
@@ -232,14 +293,11 @@ void start()
 
 // Program starts here.
 int main()
+
 {
-    start();
-    return 0;
+	start();
+	return 0;
 }
-
-
-
-
 
 
 

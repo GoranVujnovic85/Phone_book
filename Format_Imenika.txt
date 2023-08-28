@@ -12,10 +12,5 @@ Goran|Vujnovic|06543231
 Vojo|Mirkov|0648543421
 Milos|Zivanovic|064555882
 Milos|Krasic|06435231
-Test|Licnost|000000
-Miroslav|Urban|065474738
-Milos|Milosevic|0655555555555
-Jovica|Stanisic|1100110001001
-Mica|Milic|000000000
-Djordje|Djordjevic|22223332323
-0|222|1111111
+Miroslav|Ilic|63554399
+Goran|Vujnovic|0
