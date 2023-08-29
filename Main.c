@@ -8,7 +8,8 @@ Description : By using this file we can save contacts and do these operations in
    1) load users
    2) add a user
    3) view all users
-   4) remove a user
+   4) remove a user from arrey
+   5) remove a user from file
 */
 
 
@@ -297,7 +298,6 @@ int Stop_the_program()
 void start()
 {
 	int choice;
-	//int stop;
 	while(1)
 	{
 		Print_menu();
@@ -307,7 +307,6 @@ void start()
 		{
 			case stop_the_program:
 			{
-				//stop = 1;
 				Stop_the_program();
 				return;
 			}
